@@ -72,4 +72,10 @@ export class AppController {
     this.appService.test();
     return ' zz';
   }
+
+  @Get('/update')
+  async update(@Query('month') month: number) {
+    const result = this.appService.update(month);
+    return result;
+  }
 }

@@ -5,11 +5,12 @@ const spreadsheetId = '1CciTO1XPWidHNVyozEivRy-e8pl0tkw6KHQ4eYmQYto';
 @Injectable()
 export class AppService {
   private googleSheet = utils.connectGoogleApi();
-  private nowDate = utils.getDate();
   async getHello() {
     return 'Hello World!';
   }
-
+  /** 추후 DB도입하여 트랜잭션 처리하여 데이터 ACID 를 지켜야함.
+   * 아니면 멤버 추가할경우 충돌이 생겨서 에러 발생함.
+   */
   async getFamilyLength(code: number) {
     const context = await this.googleSheet.spreadsheets.values.get({
       spreadsheetId,
@@ -21,7 +22,7 @@ export class AppService {
   async getFamilyMembers(arr: Array<string>) {
     const context = await this.googleSheet.spreadsheets.values.get({
       spreadsheetId,
-      range: `${this.nowDate.month}!B${arr[0]}:B${arr[1]}`,
+      range: `${utils.getDate().month}!B${arr[0]}:B${arr[1]}`,
     });
     const result = [];
     for (let i = 0; i < context.data.values.length; i++) {
@@ -32,12 +33,12 @@ export class AppService {
   async appendNewFace(newFaceName: string, arr: Array<string>) {
     console.log(arr, newFaceName);
     const addNewFaceToSheet = await this.append(
-      `${this.nowDate.month}!A${Number(arr[1]) + 1}`,
+      `${utils.getDate().month}!A${Number(arr[1]) + 1}`,
       'INSERT_ROWS',
       [['', newFaceName]],
     );
     const addEmptyRows = await this.append(
-      `${this.nowDate.month}!A${Number(arr[1]) + 2}`,
+      `${utils.getDate().month}!A${Number(arr[1]) + 2}`,
       'OVERWRITE',
       [['']],
     );
@@ -110,12 +111,72 @@ export class AppService {
     });
     console.log('ㅎㅇㅎㅇ');
   }
+
+  async update(month: number) {
+    const nowDate = utils.getDate();
+    const lastDate = new Date(nowDate.year, month, 0);
+    console.log('시작일', lastDate.getDate());
+    let weeksCount = 0;
+    for (let i = 1; i <= lastDate.getDate(); i++) {
+      const date = new Date(nowDate.year, month - 1, i).getDay();
+      console.log(date);
+      if (date === 0) ++weeksCount;
+    }
+
+    // 스위치문으로 주차별로 투업데이트를 다르게 하면 될듯
+    const toUpdate = [['지훈가족', '현지훈', '✅', '✅']];
+    const context = await this.googleSheet.spreadsheets.values.get({
+      spreadsheetId,
+      range: '2.!A3:G3',
+    });
+    /**
+     * const arr =  [{3:1}{4:2}{}]
+     */
+    console.log(context.data.values);
+    await this.googleSheet.spreadsheets.values.update({
+      spreadsheetId,
+      range: `2.!A3`,
+      valueInputOption: 'USER_ENTERED',
+      requestBody: { values: toUpdate },
+    });
+    console.log(nowDate.second);
+  }
+
   async test() {
     // 시트아이디 보는것
-    const context = await this.googleSheet.spreadsheets.get({
-      spreadsheetId,
-    });
-    console.log(context.data.sheets);
+    // const context = await this.googleSheet.spreadsheets.get({
+    //   spreadsheetId,
+    // });
+    // console.log(context.data.sheets);
+    const nowDate = utils.getDate();
+    const month = nowDate.month;
+    const lastDate = new Date(nowDate.year, month, 0);
+    let weeksCount = 0;
+    for (let i = 1; i <= lastDate.getDate(); i++) {
+      const date = new Date(nowDate.year, month - 1, i).getDay();
+      console.log(date);
+      if (date === 0) ++weeksCount;
+    }
+    console.log('주일은 총', weeksCount);
+
+    const arr = [
+      { code: 3, type: 1 },
+      { code: 4, type: 'zz' },
+      { code: 5, type: 2 },
+    ];
+    // 🟢🟡🔴
+    let aa = [];
+    // {code, type}, [["",""]]
+    for (let i = 0; i < arr.length; i++) {
+      const memberCode = arr[i].code;
+      const attentType = utils.setAttendType(arr[i]);
+      const context = await this.googleSheet.spreadsheets.values.get({
+        spreadsheetId,
+        range: `2.!A${memberCode}:G${memberCode}`,
+      });
+      const zz = [...context.data.values[0], attentType.type];
+      console.log('업데이트', zz);
+    }
     // 아래는 시트 추가하는것
     // await this.googleSheet.spreadsheets.batchUpdate({
     //   spreadsheetId,
