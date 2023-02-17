@@ -167,7 +167,7 @@ export class AppService {
     // 🟢🟡🔴
     let aa = [];
     // {code, type}, [["",""]]
-    for (let i = 0; i < arr.length; i++) {
+    for (let i = ; i < arr.length; i++) {
       const memberCode = arr[i].code;
       const attentType = utils.setAttendType(arr[i]);
       const context = await this.googleSheet.spreadsheets.values.get({
