@@ -1,81 +1,132 @@
-import { Body, Controller, Get, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { AppService } from './app.service';
+import { CreateAttendance } from './types';
 import * as utils from './utils/utilFuc';
+
+let working = false;
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
-
-  @Get()
-  async getHello() {
-    try {
-      return await this.appService.getHello();
-    } catch (err) {
-      console.log(err.message);
-      throw new Error(err);
-    }
-  }
-  //
+  // @Get('/')
+  // async setApp(
+  //   @Query('year') year: number,
+  //   @Query('name') name: string,
+  //   @Query('start') start: number,
+  //   @Query('end') end: number,
+  //   @Query('members') members: string,
+  // ) {
+  //   const memberArr = members.split(',');
+  //   const code = utils.getReader(name);
+  //   console.log(code);
+  //   await this.appService.createSetApp(name, code, year, start, end, memberArr);
+  //   // await this.appService.zz();
+  //   return 'clear';
+  // }
 
   @Get('/members')
-  async getFamilyMembers(@Query('name') name: string) {
+  async getFamily(@Query('name') name: string) {
     try {
       const familyCode = utils.getReader(name);
-      console.log(familyCode);
-      const familyLength = await this.appService.getFamilyLength(familyCode);
-      console.log('로드 완료,', familyLength);
-      const familyMembers = await this.appService.getFamilyMembers(
-        familyLength,
-      );
-      console.log(familyMembers);
-      return familyMembers;
+      const date = utils.getDate().month;
+      const familyInfo = await this.appService.getFamilyInfo(familyCode, date);
+      return familyInfo;
     } catch (err) {
       console.log('예외');
       throw new Error(err.message);
     }
   }
-  @Get('/post')
+
+  @Post('/members')
   async appendNewFace(
-    @Query('newFaceName') newFaceName: string,
-    @Query('name') name: string,
+    @Body('newFaceName') newFaceName: string,
+    @Body('name') name: string,
   ) {
-    const familyCode = utils.getReader(name);
-    const familyLength = await this.appService.getFamilyLength(familyCode);
-    console.log(familyCode);
-    this.appService.appendNewFace(newFaceName, familyLength);
-    // 본인 팸코드 B +1
-    // 이후 7-팸코드 만큼 반복
-    // A , B 각각 +1 씩
-    this.appService.plusFamilyLength(familyCode);
-    return 'ㅎㅎ';
+    const now = Date.now();
+    if (working === true) {
+      return '다른 작업이 처리 중입니다. 잠시후에 다시 시도해 주세요';
+    }
+    const date = utils.getDate().month;
+
+    working = true;
+    try {
+      const familyCode = utils.getReader(name);
+      const familyInfo = await this.appService.getFamilyInfo(familyCode, date);
+      const arr = [];
+      arr.push(familyInfo.startLength);
+      arr.push(familyInfo.endLength);
+      await Promise.all([
+        this.appService.appendNewMember(newFaceName, arr),
+        this.appService.plusFamilyLength(familyCode, newFaceName),
+      ]);
+      console.log(Date.now() - now, '밀리초 걸림');
+      return 'ㅎㅎ';
+    } catch (err) {
+      return err.message;
+    } finally {
+      working = false;
+    }
   }
 
-  @Get('/delete')
-  async deleteMember() {
-    const name = '진희';
-    const target = '안세은';
-    const familyCode = utils.getReader(name);
-    console.log(familyCode);
-    const familyLength = await this.appService.getFamilyLength(familyCode);
-    console.log('로드 완료,', familyLength);
-    const familyMembers = await this.appService.getFamilyMembers(familyLength);
-    console.log(familyMembers);
-    const targerIndex = familyMembers.lastIndexOf(target);
-    const removeTarget = Number(familyLength[0]) + targerIndex;
-    this.appService.deleteMembers(removeTarget, familyCode);
-    this.appService.minusFamilyLength(familyCode);
-    return 'ㅎㅇ';
-  }
+  @Delete('/members')
+  async deleteMember(
+    @Body('name') name: string,
+    @Body('target') target: string,
+  ) {
+    if (working === true) {
+      return '다른 작업이 처리 중입니다. 잠시후에 다시 시도해 주세요';
+    }
 
-  @Get('/test')
-  async test() {
-    this.appService.test();
+    const now = Date.now();
+
+    try {
+      const familyCode = utils.getReader(name);
+      await Promise.all([
+        this.appService.deleteMembers(target, familyCode),
+        this.appService.minusFamilyLength(familyCode, target),
+      ]);
+      console.log(Date.now() - now, '초 걸림');
+      return 'ㅎㅇ';
+    } catch (err) {
+      console.log(err.message);
+      return err;
+    } finally {
+      working = false;
+    }
+  }
+  //
+  @Get('/sheetIds')
+  async getSheetIds() {
+    const a = await this.appService.getSheetIds();
+    return a;
     return ' zz';
   }
 
-  @Get('/update')
-  async update(@Query('month') month: number) {
-    const result = this.appService.update(month);
+  @Post('/attendance')
+  async attendance(@Body() data: CreateAttendance) {
+    console.log(data);
+    const date = utils.getDate().month;
+    const familyCode = utils.getReader(data.name);
+    const familyInfo = await this.appService.getFamilyInfo(familyCode, date);
+    const nowWeek = utils.getNowWeek();
+    const result = await this.appService.postAttendance(
+      data,
+      nowWeek,
+      familyInfo,
+    );
     return result;
+  }
+
+  @Patch('/attendance')
+  async complateAttendance() {
+    await this.appService.complateAttendance();
   }
 }

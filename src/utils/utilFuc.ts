@@ -3,6 +3,94 @@ import {
   client_email,
   private_key,
 } from '../../attendance-377908-a5329d95e55f.json';
+const onDays = [0, 1, 6, 2, 3, 4, 5];
+
+export const getNowWeek = () => {
+  // 아래는 월별 일요일 날짜와 개수 구하는 것
+  const nowDate = getDate();
+  const now = new Date().getDay();
+  if (onDays.includes(now) === false)
+    throw new Error('주일, 월요일에만 출석부 사용이 가능합니다.');
+
+  const lastDate = new Date(nowDate.year, nowDate.month, 0).getDate();
+  console.log(lastDate);
+  let weeksCount = 0;
+  const zxczxc = [];
+  for (let i = 1; i <= lastDate; i++) {
+    const day = new Date(nowDate.year, nowDate.month - 1, i).getDay();
+    const date = new Date(nowDate.year, nowDate.month - 1, i).getDate();
+    const arr = [];
+    if (day === 0) {
+      arr.push(date);
+      if (date + 1 <= lastDate) {
+        arr.push(date + 1);
+      } else {
+        arr.push(1);
+      }
+      zxczxc.push(arr);
+      // weeksCount.push(
+      //   `${date}~${date + 1} 일까지 ${weeksCount.length + 1}주차 `,
+      // );
+    }
+  }
+  console.log(zxczxc[0].includes(nowDate.date));
+  for (let i = 0; i < zxczxc.length; i++) {
+    if (zxczxc[i].includes(27)) {
+      weeksCount = i + 1;
+      break;
+    }
+  }
+  console.log('오늘은', weeksCount, '주차');
+  // console.log('주일은 총', weeksCount.length, '번, ', weeksCount);
+  // const result = [];
+  // for (let i = 0; i < context.data.values.length; i++) {
+  //   result.push(context.data.values[i][0]);
+  // }
+  return weeksCount;
+};
+
+export const getColumnNumber = (nowWeek: number) => {
+  let column = '';
+  switch (nowWeek) {
+    case 1:
+      column = 'C';
+      break;
+    case 2:
+      column = 'E';
+      break;
+    case 3:
+      column = 'G';
+      break;
+    case 4:
+      column = 'I';
+      break;
+    case 5:
+      column = 'K';
+      break;
+  }
+  return column;
+};
+export const getColumnNumberForEtc = (nowWeek: number) => {
+  let column = '';
+  switch (nowWeek) {
+    case 1:
+      column = 'D';
+      break;
+    case 2:
+      column = 'F';
+      break;
+    case 3:
+      column = 'H';
+      break;
+    case 4:
+      column = 'J';
+      break;
+    case 5:
+      column = 'L';
+      break;
+  }
+  return column;
+};
 
 export const getReader = (name: string) => {
   const useFulReaderName = [
@@ -32,6 +120,7 @@ export const getReader = (name: string) => {
   switch (name) {
     case '지훈':
     case '영은':
+    case '김원':
       code = 1;
       break;
     case '수민':
