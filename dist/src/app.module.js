@@ -14,6 +14,7 @@ const app_service_1 = require("./app.service");
 const family_module_1 = require("./family/family.module");
 const mongoose_1 = require("@nestjs/mongoose");
 const etc_module_1 = require("./etc/etc.module");
+const fighting_module_1 = require("./fighting/fighting.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -30,6 +31,7 @@ AppModule = __decorate([
             mongoose_1.MongooseModule.forRoot(process.env.MONGODB_URL),
             family_module_1.FamilyModule,
             etc_module_1.EtcModule,
+            fighting_module_1.FightingModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

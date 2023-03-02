@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.setAttendType = exports.makeToUpdate = exports.getDate = exports.connectGoogleApi = exports.getReader = exports.getColumnNumberForEtc = exports.getColumnNumber = exports.getNowWeek = void 0;
 const googleapis_1 = require("googleapis");
 const attendance_377908_a5329d95e55f_json_1 = require("../../attendance-377908-a5329d95e55f.json");
-const onDays = [0, 1, 6, 2, 3, 4, 5];
+const onDays = [0, 1, 6, 5];
 const getNowWeek = () => {
     const nowDate = (0, exports.getDate)();
     const now = new Date().getDay();

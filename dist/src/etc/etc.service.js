@@ -26,6 +26,14 @@ let EtcService = class EtcService {
         this.familyService = familyService;
         this.googleSheet = utils.connectGoogleApi();
     }
+    async get2eumPw() {
+        const pw = await this.etcModel.findOne({ text: '2eumPw' });
+        return pw;
+    }
+    async edit2eumPw(pw, updatedAt) {
+        const result = await this.etcModel.findOneAndUpdate({ text: '2eumPw' }, { $set: { pw, updatedAt } });
+        return true;
+    }
     async getEtc(code) {
         const date = utils.getDate();
         const week = utils.getNowWeek();

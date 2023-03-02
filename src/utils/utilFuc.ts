@@ -3,7 +3,7 @@ import {
   client_email,
   private_key,
 } from '../../attendance-377908-a5329d95e55f.json';
-const onDays = [0, 1, 6, 2, 3, 4, 5];
+const onDays = [0, 1, 6, 5];
 
 export const getNowWeek = () => {
   // 아래는 월별 일요일 날짜와 개수 구하는 것
@@ -35,7 +35,7 @@ export const getNowWeek = () => {
   }
   console.log(zxczxc[0].includes(nowDate.date));
   for (let i = 0; i < zxczxc.length; i++) {
-    // 27 을 바꾸어야 함
+    // 27 을 바꾸어야 함 nowDate.date 로
     if (zxczxc[i].includes(27)) {
       weeksCount = i + 1;
       break;

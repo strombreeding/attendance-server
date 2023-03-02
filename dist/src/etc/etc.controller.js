@@ -38,6 +38,15 @@ let EtcController = class EtcController {
         const etcToWeek = await this.etcService.getEtc(code);
         return etcToWeek;
     }
+    async get2eumPw() {
+        const pw = await this.etcService.get2eumPw();
+        return pw;
+    }
+    async editPw(body) {
+        const { pw, updatedAt } = body;
+        const result = await this.etcService.edit2eumPw(pw, updatedAt);
+        return result;
+    }
 };
 __decorate([
     (0, common_1.Post)(),
@@ -53,6 +62,19 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], EtcController.prototype, "getEtc", null);
+__decorate([
+    (0, common_1.Get)('/2eum'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], EtcController.prototype, "get2eumPw", null);
+__decorate([
+    (0, common_1.Post)('/2eum'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], EtcController.prototype, "editPw", null);
 EtcController = __decorate([
     (0, common_1.Controller)('etc'),
     __metadata("design:paramtypes", [etc_service_1.EtcService])

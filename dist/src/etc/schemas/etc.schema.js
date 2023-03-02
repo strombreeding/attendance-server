@@ -19,29 +19,33 @@ __decorate([
     __metadata("design:type", Date)
 ], Etc.prototype, "createdAt", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: new Date(), type: mongoose_2.default.Schema.Types.Date }),
-    __metadata("design:type", Date)
+    (0, mongoose_1.Prop)({ default: new Date() }),
+    __metadata("design:type", Object)
 ], Etc.prototype, "updatedAt", void 0);
 __decorate([
     (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
 ], Etc.prototype, "text", void 0);
 __decorate([
-    (0, mongoose_1.Prop)(),
+    (0, mongoose_1.Prop)({ required: false }),
     __metadata("design:type", Number)
 ], Etc.prototype, "ownerFamilyCode", void 0);
 __decorate([
-    (0, mongoose_1.Prop)(),
+    (0, mongoose_1.Prop)({ required: false }),
     __metadata("design:type", Number)
 ], Etc.prototype, "week", void 0);
 __decorate([
-    (0, mongoose_1.Prop)(),
+    (0, mongoose_1.Prop)({ required: false }),
     __metadata("design:type", Number)
 ], Etc.prototype, "month", void 0);
 __decorate([
-    (0, mongoose_1.Prop)(),
+    (0, mongoose_1.Prop)({ required: false }),
     __metadata("design:type", Number)
 ], Etc.prototype, "year", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: false }),
+    __metadata("design:type", Number)
+], Etc.prototype, "pw", void 0);
 Etc = __decorate([
     (0, mongoose_1.Schema)({ timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } })
 ], Etc);
