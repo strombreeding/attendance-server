@@ -43,8 +43,9 @@ export class EtcController {
     return pw;
   }
   @Post('/2eum')
-  async editPw(@Body() body: { pw: number; updatedAt: number }) {
-    const { pw, updatedAt } = body;
+  async editPw(@Body() body: { pw: number }) {
+    const { pw } = body;
+    const updatedAt = Number(Date.now());
     const result = await this.etcService.edit2eumPw(pw, updatedAt);
     return result;
   }

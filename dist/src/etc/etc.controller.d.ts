@@ -37,6 +37,5 @@ export declare class EtcController {
     }>;
     editPw(body: {
         pw: number;
-        updatedAt: number;
     }): Promise<boolean>;
 }

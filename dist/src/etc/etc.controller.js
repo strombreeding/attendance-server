@@ -43,7 +43,8 @@ let EtcController = class EtcController {
         return pw;
     }
     async editPw(body) {
-        const { pw, updatedAt } = body;
+        const { pw } = body;
+        const updatedAt = Number(Date.now());
         const result = await this.etcService.edit2eumPw(pw, updatedAt);
         return result;
     }

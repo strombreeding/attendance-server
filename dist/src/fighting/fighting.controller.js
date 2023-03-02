@@ -20,9 +20,11 @@ let FightingController = class FightingController {
         this.fightService = fightService;
     }
     async getMsgs() {
+        console.log('파이팅 겟');
         return await this.fightService.getMsg();
     }
     async postMsg(body) {
+        console.log('파이팅 포스트 들어옴');
         await this.fightService.postMsg(body);
         return true;
     }
