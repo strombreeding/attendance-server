@@ -37,4 +37,15 @@ export class EtcController {
     const etcToWeek = await this.etcService.getEtc(code);
     return etcToWeek;
   }
+  @Get('/2eum')
+  async get2eumPw() {
+    const pw = await this.etcService.get2eumPw();
+    return pw;
+  }
+  @Post('/2eum')
+  async editPw(@Body() body: { pw: number; updatedAt: number }) {
+    const { pw, updatedAt } = body;
+    const result = await this.etcService.edit2eumPw(pw, updatedAt);
+    return result;
+  }
 }

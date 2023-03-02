@@ -97,7 +97,7 @@ export class AppController {
       return 'ㅎㅇ';
     } catch (err) {
       console.log(err.message);
-      return err;
+      throw new Error(err.message);
     } finally {
       working = false;
     }

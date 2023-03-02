@@ -35,6 +35,7 @@ export const getNowWeek = () => {
   }
   console.log(zxczxc[0].includes(nowDate.date));
   for (let i = 0; i < zxczxc.length; i++) {
+    // 27 을 바꾸어야 함
     if (zxczxc[i].includes(27)) {
       weeksCount = i + 1;
       break;

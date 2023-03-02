@@ -32,7 +32,7 @@ export declare class AppController {
         _id: import("mongoose").Types.ObjectId;
     }>;
     appendNewFace(newFaceName: string, name: string): Promise<any>;
-    deleteMember(name: string, target: string): Promise<any>;
+    deleteMember(name: string, target: string): Promise<"다른 작업이 처리 중입니다. 잠시후에 다시 시도해 주세요" | "ㅎㅇ">;
     getSheetIds(): Promise<void | " zz">;
     attendance(data: CreateAttendance): Promise<void>;
     complateAttendance(): Promise<void>;

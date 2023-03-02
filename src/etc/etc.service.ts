@@ -17,6 +17,18 @@ export class EtcService {
   ) {}
   private googleSheet = utils.connectGoogleApi();
 
+  async get2eumPw() {
+    const pw = await this.etcModel.findOne({ text: '2eumPw' });
+    return pw;
+  }
+  async edit2eumPw(pw: number, updatedAt: number) {
+    const result = await this.etcModel.findOneAndUpdate(
+      { text: '2eumPw' },
+      { $set: { pw, updatedAt } },
+    );
+    return true;
+  }
+
   async getEtc(code: number) {
     const date = utils.getDate();
     const week = utils.getNowWeek();
