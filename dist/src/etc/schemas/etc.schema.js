@@ -19,8 +19,8 @@ __decorate([
     __metadata("design:type", Date)
 ], Etc.prototype, "createdAt", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: new Date() }),
-    __metadata("design:type", Object)
+    (0, mongoose_1.Prop)({ default: Date.now() }),
+    __metadata("design:type", Number)
 ], Etc.prototype, "updatedAt", void 0);
 __decorate([
     (0, mongoose_1.Prop)(),

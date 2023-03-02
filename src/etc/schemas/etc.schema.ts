@@ -12,8 +12,8 @@ export class Etc {
   @Prop({ default: new Date(), type: mongoose.Schema.Types.Date })
   createdAt: Date;
 
-  @Prop({ default: new Date() })
-  updatedAt: Date | number;
+  @Prop({ default: Date.now() })
+  updatedAt: number;
 
   @Prop()
   text: string;

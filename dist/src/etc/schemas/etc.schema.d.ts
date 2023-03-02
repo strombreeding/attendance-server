@@ -2,7 +2,7 @@ import mongoose, { Document } from 'mongoose';
 export type EtcDocument = Etc & Document;
 export declare class Etc {
     createdAt: Date;
-    updatedAt: Date | number;
+    updatedAt: number;
     text: string;
     ownerFamilyCode: number;
     week: number;
