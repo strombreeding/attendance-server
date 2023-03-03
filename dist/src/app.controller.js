@@ -22,11 +22,16 @@ let AppController = class AppController {
         this.appService = appService;
     }
     async getFamily(name) {
+        console.log('들어옴?');
         try {
             const familyCode = utils.getReader(name);
             const date = utils.getDate().month;
             const familyInfo = await this.appService.getFamilyInfo(familyCode, date);
-            return familyInfo;
+            const attendanceInfo = await this.appService.getAttendInfo(familyCode, date);
+            if (!attendanceInfo) {
+                return { familyInfo, attendanceInfo: null };
+            }
+            return { familyInfo, attendanceInfo };
         }
         catch (err) {
             console.log('예외');

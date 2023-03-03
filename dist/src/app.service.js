@@ -30,6 +30,25 @@ let AppService = class AppService {
         const family = await this.familyService.getFamilyInfo(code, month);
         return family;
     }
+    async getAttendInfo(code, month) {
+        const family = await this.familyService.getFamilyInfo(code, month);
+        const nowWeek = utils.getNowWeek();
+        const column = utils.getColumnNumber(nowWeek);
+        const attendFamily = await this.googleSheet.spreadsheets.values.get({
+            spreadsheetId,
+            range: `${month}!${column}${family.startLength}:${column}${family.endLength}`,
+        });
+        let resultNum = 0;
+        for (let i = 0; i < attendFamily.data.values.length; i++) {
+            const checked = ['🟢', '🟡'];
+            if (checked.includes(attendFamily.data.values[i][0])) {
+                ++resultNum;
+            }
+        }
+        if (resultNum > 0)
+            return attendFamily.data.values;
+        return undefined;
+    }
     async appendNewMember(newFaceName, arr) {
         const date = utils.getDate().month;
         await this.appendNewFace(newFaceName, arr, date);

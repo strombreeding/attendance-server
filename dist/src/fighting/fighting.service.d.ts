@@ -34,5 +34,5 @@ export declare class FightingService {
         content: string;
         author: string;
     }): Promise<boolean>;
-    likesMsg(id: string): Promise<boolean>;
+    likesMsg(id: string, liker: string): Promise<boolean>;
 }

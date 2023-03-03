@@ -34,16 +34,37 @@ export class AppController {
 
   @Get('/members')
   async getFamily(@Query('name') name: string) {
+    console.log('들어옴?');
     try {
       const familyCode = utils.getReader(name);
       const date = utils.getDate().month;
       const familyInfo = await this.appService.getFamilyInfo(familyCode, date);
-      return familyInfo;
+      const attendanceInfo = await this.appService.getAttendInfo(
+        familyCode,
+        date,
+      );
+      if (!attendanceInfo) {
+        return { familyInfo, attendanceInfo: null };
+      }
+      return { familyInfo, attendanceInfo };
     } catch (err) {
       console.log('예외');
       throw new Error(err.message);
     }
   }
+  // @Get('/attendances')
+  // async getAttendance(@Query('name') name: string) {
+  //   console.log('들어옴?');
+  //   try {
+  //     const familyCode = utils.getReader(name);
+  //     const date = utils.getDate().month;
+
+  //     return attendanceInfo;
+  //   } catch (err) {
+  //     console.log('예외');
+  //     throw new Error(err.message);
+  //   }
+  // }
 
   @Post('/members')
   async appendNewFace(

@@ -42,6 +42,26 @@ export class AppService {
     const family = await this.familyService.getFamilyInfo(code, month);
     return family;
   }
+  // 출석부 변경 사항
+  async getAttendInfo(code: number, month?: number) {
+    const family = await this.familyService.getFamilyInfo(code, month);
+    const nowWeek = utils.getNowWeek();
+    const column = utils.getColumnNumber(nowWeek);
+    const attendFamily = await this.googleSheet.spreadsheets.values.get({
+      spreadsheetId,
+      range: `${month}!${column}${family.startLength}:${column}${family.endLength}`,
+    });
+    let resultNum = 0;
+    for (let i = 0; i < attendFamily.data.values.length; i++) {
+      const checked = ['🟢', '🟡'];
+      if (checked.includes(attendFamily.data.values[i][0])) {
+        ++resultNum;
+      }
+    }
+    if (resultNum > 0) return attendFamily.data.values;
+    return undefined;
+  }
+
   // 멤버 생성
   async appendNewMember(newFaceName, arr) {
     // await this.appendHelper(newFaceName, arr);

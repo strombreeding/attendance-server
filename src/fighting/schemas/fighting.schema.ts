@@ -12,11 +12,13 @@ export class Fighting {
   @Prop({ default: new Date(), type: Date, expires: 86400 * 6 })
   createdAt: Date;
 
-  @Prop()
+  @Prop({ required: false })
   content: string;
 
-  @Prop()
+  @Prop({ required: false })
   author: string;
+  @Prop({ required: false })
+  liker: string;
 
   @Prop({ default: 0 })
   likes: number;

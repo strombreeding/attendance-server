@@ -35,6 +35,7 @@ export declare class AppService {
     getFamilyInfo(code: number, month?: number): Promise<Family & import("mongoose").Document<any, any, any> & {
         _id: import("mongoose").Types.ObjectId;
     }>;
+    getAttendInfo(code: number, month?: number): Promise<any[][]>;
     appendNewMember(newFaceName: any, arr: any): Promise<boolean>;
     deleteMembers(target: string, code: number): Promise<void>;
     plusFamilyLength(code: number, newMember?: string): Promise<boolean>;

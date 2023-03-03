@@ -28,8 +28,9 @@ let FightingController = class FightingController {
         await this.fightService.postMsg(body);
         return true;
     }
-    async likesMsg(id) {
-        await this.fightService.likesMsg(id);
+    async likesMsg(body) {
+        const { id, liker } = body;
+        await this.fightService.likesMsg(id, liker);
         return true;
     }
 };
@@ -47,10 +48,10 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], FightingController.prototype, "postMsg", null);
 __decorate([
-    (0, common_1.Patch)(),
-    __param(0, (0, common_1.Body)('id')),
+    (0, common_1.Patch)('/likes'),
+    __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], FightingController.prototype, "likesMsg", null);
 FightingController = __decorate([

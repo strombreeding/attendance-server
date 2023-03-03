@@ -18,9 +18,10 @@ export class FightingController {
     return true;
   }
 
-  @Patch()
-  async likesMsg(@Body('id') id: string) {
-    await this.fightService.likesMsg(id);
+  @Patch('/likes')
+  async likesMsg(@Body() body: { id: string; liker: string }) {
+    const { id, liker } = body;
+    await this.fightService.likesMsg(id, liker);
     return true;
   }
 }

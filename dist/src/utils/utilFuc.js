@@ -3,12 +3,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.setAttendType = exports.makeToUpdate = exports.getDate = exports.connectGoogleApi = exports.getReader = exports.getColumnNumberForEtc = exports.getColumnNumber = exports.getNowWeek = void 0;
 const googleapis_1 = require("googleapis");
 const attendance_377908_a5329d95e55f_json_1 = require("../../attendance-377908-a5329d95e55f.json");
-const onDays = [0, 1, 6, 5];
+const onDays = [0, 1, 6];
 const getNowWeek = () => {
     const nowDate = (0, exports.getDate)();
     const now = new Date().getDay();
     if (onDays.includes(now) === false)
-        throw new Error('주일, 월요일에만 출석부 사용이 가능합니다.');
+        throw new Error('토,일,월요일 에만 출석부 사용이 가능합니다.');
     const lastDate = new Date(nowDate.year, nowDate.month, 0).getDate();
     console.log(lastDate);
     let weeksCount = 0;
@@ -18,6 +18,7 @@ const getNowWeek = () => {
         const date = new Date(nowDate.year, nowDate.month - 1, i).getDate();
         const arr = [];
         if (day === 0) {
+            arr.push(date - 1);
             arr.push(date);
             if (date + 1 <= lastDate) {
                 arr.push(date + 1);
@@ -30,7 +31,7 @@ const getNowWeek = () => {
     }
     console.log(zxczxc[0].includes(nowDate.date));
     for (let i = 0; i < zxczxc.length; i++) {
-        if (zxczxc[i].includes(27)) {
+        if (zxczxc[i].includes(nowDate.date)) {
             weeksCount = i + 1;
             break;
         }

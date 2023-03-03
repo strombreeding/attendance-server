@@ -18,13 +18,17 @@ __decorate([
     __metadata("design:type", Date)
 ], Fighting.prototype, "createdAt", void 0);
 __decorate([
-    (0, mongoose_1.Prop)(),
+    (0, mongoose_1.Prop)({ required: false }),
     __metadata("design:type", String)
 ], Fighting.prototype, "content", void 0);
 __decorate([
-    (0, mongoose_1.Prop)(),
+    (0, mongoose_1.Prop)({ required: false }),
     __metadata("design:type", String)
 ], Fighting.prototype, "author", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ required: false }),
+    __metadata("design:type", String)
+], Fighting.prototype, "liker", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ default: 0 }),
     __metadata("design:type", Number)

@@ -14,6 +14,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FightingService = void 0;
 const common_1 = require("@nestjs/common");
+const exceptions_1 = require("@nestjs/common/exceptions");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const fighting_schema_1 = require("./schemas/fighting.schema");
@@ -29,10 +30,22 @@ let FightingService = class FightingService {
         await this.fightModel.create(data);
         return true;
     }
-    async likesMsg(id) {
-        const a = await this.fightModel.findById(id);
-        await this.fightModel.findByIdAndUpdate(id, {
-            $set: { likes: a.likes + 1 },
+    async likesMsg(id, liker) {
+        const aleardy = await this.fightModel.findOne({ liker });
+        console.log(aleardy);
+        if (!aleardy) {
+            await this.fightModel.create({ liker });
+        }
+        else {
+            if (aleardy.likes > 10) {
+                throw new exceptions_1.HttpException('오늘 하루 좋아요 가능개수를 넘었습니다.\n하루 최대 10번', 400);
+            }
+        }
+        const newLiker = await this.fightModel.findOne({ liker });
+        await this.fightModel.findOneAndUpdate({ liker }, { $set: { likes: newLiker.likes + 1 } });
+        const likesId = await this.fightModel.findById(id);
+        await this.fightModel.findByIdAndUpdate({ _id: id }, {
+            $set: { likes: likesId.likes + 1 },
         });
         return true;
     }

@@ -3,14 +3,14 @@ import {
   client_email,
   private_key,
 } from '../../attendance-377908-a5329d95e55f.json';
-const onDays = [0, 1, 6, 5];
+const onDays = [0, 1, 6];
 
 export const getNowWeek = () => {
   // 아래는 월별 일요일 날짜와 개수 구하는 것
   const nowDate = getDate();
   const now = new Date().getDay();
   if (onDays.includes(now) === false)
-    throw new Error('주일, 월요일에만 출석부 사용이 가능합니다.');
+    throw new Error('토,일,월요일 에만 출석부 사용이 가능합니다.');
 
   const lastDate = new Date(nowDate.year, nowDate.month, 0).getDate();
   console.log(lastDate);
@@ -21,6 +21,10 @@ export const getNowWeek = () => {
     const date = new Date(nowDate.year, nowDate.month - 1, i).getDate();
     const arr = [];
     if (day === 0) {
+      // arr 에는 출석부 가능 날짜(date) 가 들어감.
+      // 기본적으로 주일+월요일 date 가 들어가는데,
+      // 주일을 시작으로 하기 때문에 다음날은 +1 전날은 -1 이런식으로 추가 감소 하면 됨
+      arr.push(date - 1);
       arr.push(date);
       if (date + 1 <= lastDate) {
         arr.push(date + 1);
@@ -36,7 +40,7 @@ export const getNowWeek = () => {
   console.log(zxczxc[0].includes(nowDate.date));
   for (let i = 0; i < zxczxc.length; i++) {
     // 27 을 바꾸어야 함 nowDate.date 로
-    if (zxczxc[i].includes(27)) {
+    if (zxczxc[i].includes(nowDate.date)) {
       weeksCount = i + 1;
       break;
     }

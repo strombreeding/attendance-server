@@ -34,5 +34,8 @@ export declare class FightingController {
         content: string;
         author: string;
     }): Promise<boolean>;
-    likesMsg(id: string): Promise<boolean>;
+    likesMsg(body: {
+        id: string;
+        liker: string;
+    }): Promise<boolean>;
 }
