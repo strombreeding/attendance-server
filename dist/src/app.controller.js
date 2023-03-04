@@ -81,7 +81,7 @@ let AppController = class AppController {
         }
         catch (err) {
             console.log(err.message);
-            throw new Error(err.message);
+            throw new common_1.HttpException(err.message, 400);
         }
         finally {
             working = false;

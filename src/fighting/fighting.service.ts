@@ -12,7 +12,7 @@ export class FightingService {
   ) {}
 
   async getMsg() {
-    const msgs = await this.fightModel.find({});
+    const msgs = await this.fightModel.find({ liker: { $exists: false } });
     return msgs;
   }
 
@@ -28,6 +28,7 @@ export class FightingService {
       await this.fightModel.create({ liker });
     } else {
       if (aleardy.likes > 10) {
+        console.log(aleardy.createdAt);
         throw new HttpException(
           '오늘 하루 좋아요 가능개수를 넘었습니다.\n하루 최대 10번',
           400,

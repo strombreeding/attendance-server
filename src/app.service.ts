@@ -1,4 +1,9 @@
-import { CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
+import {
+  CACHE_MANAGER,
+  HttpException,
+  Inject,
+  Injectable,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Cache } from 'cache-manager';
 import { Model } from 'mongoose';
@@ -52,14 +57,19 @@ export class AppService {
       range: `${month}!${column}${family.startLength}:${column}${family.endLength}`,
     });
     let resultNum = 0;
-    for (let i = 0; i < attendFamily.data.values.length; i++) {
-      const checked = ['🟢', '🟡'];
-      if (checked.includes(attendFamily.data.values[i][0])) {
-        ++resultNum;
+    console.log(attendFamily.data.values);
+    if (attendFamily.data.values) {
+      for (let i = 0; i < attendFamily.data.values.length; i++) {
+        const checked = ['🟢', '🟡'];
+        if (checked.includes(attendFamily.data.values[i][0])) {
+          ++resultNum;
+        }
       }
+      if (resultNum > 0) return attendFamily.data.values;
+      return undefined;
+    } else {
+      return undefined;
     }
-    if (resultNum > 0) return attendFamily.data.values;
-    return undefined;
   }
 
   // 멤버 생성
@@ -76,7 +86,7 @@ export class AppService {
 
     const familyInfo = await this.familyService.getFamilyInfo(code, date);
     const targetIndex = familyInfo.members.lastIndexOf(target);
-    if (targetIndex === -1) throw new Error('없는 애임...');
+    if (targetIndex === -1) throw new HttpException('없는애임..', 400);
     const removeTarget = familyInfo.startLength + targetIndex - 1;
     console.log(removeTarget, '리부드');
     for (let i = date; i <= 12; i++) {

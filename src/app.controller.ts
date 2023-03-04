@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpException,
   Patch,
   Post,
   Query,
@@ -118,7 +119,7 @@ export class AppController {
       return 'ㅎㅇ';
     } catch (err) {
       console.log(err.message);
-      throw new Error(err.message);
+      throw new HttpException(err.message, 400);
     } finally {
       working = false;
     }

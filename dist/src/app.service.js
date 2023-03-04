@@ -39,15 +39,21 @@ let AppService = class AppService {
             range: `${month}!${column}${family.startLength}:${column}${family.endLength}`,
         });
         let resultNum = 0;
-        for (let i = 0; i < attendFamily.data.values.length; i++) {
-            const checked = ['🟢', '🟡'];
-            if (checked.includes(attendFamily.data.values[i][0])) {
-                ++resultNum;
+        console.log(attendFamily.data.values);
+        if (attendFamily.data.values) {
+            for (let i = 0; i < attendFamily.data.values.length; i++) {
+                const checked = ['🟢', '🟡'];
+                if (checked.includes(attendFamily.data.values[i][0])) {
+                    ++resultNum;
+                }
             }
+            if (resultNum > 0)
+                return attendFamily.data.values;
+            return undefined;
         }
-        if (resultNum > 0)
-            return attendFamily.data.values;
-        return undefined;
+        else {
+            return undefined;
+        }
     }
     async appendNewMember(newFaceName, arr) {
         const date = utils.getDate().month;
@@ -59,7 +65,7 @@ let AppService = class AppService {
         const familyInfo = await this.familyService.getFamilyInfo(code, date);
         const targetIndex = familyInfo.members.lastIndexOf(target);
         if (targetIndex === -1)
-            throw new Error('없는 애임...');
+            throw new common_1.HttpException('없는애임..', 400);
         const removeTarget = familyInfo.startLength + targetIndex - 1;
         console.log(removeTarget, '리부드');
         for (let i = date; i <= 12; i++) {
