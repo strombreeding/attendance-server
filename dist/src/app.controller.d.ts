@@ -39,4 +39,6 @@ export declare class AppController {
     getSheetIds(): Promise<void | " zz">;
     attendance(data: CreateAttendance): Promise<void>;
     complateAttendance(): Promise<void>;
+    sendPassword(): string;
+    getVersion(): Promise<any>;
 }

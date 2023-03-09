@@ -5,5 +5,8 @@ export type CreateAttendance = {
 export type AttendanceList = Array<Attendance>;
 export type Attendance = {
   index: number;
-  attend: string;
+  type: {
+    attend: string;
+    pray: string;
+  };
 };

@@ -98,11 +98,18 @@ let AppController = class AppController {
         const familyCode = utils.getReader(data.name);
         const familyInfo = await this.appService.getFamilyInfo(familyCode, date);
         const nowWeek = utils.getNowWeek();
+        console.log('gdwegegwegwgewgegewweg');
         const result = await this.appService.postAttendance(data, nowWeek, familyInfo);
         return result;
     }
     async complateAttendance() {
-        await this.appService.complateAttendance();
+    }
+    sendPassword() {
+        return '2580#';
+    }
+    async getVersion() {
+        const version = await this.appService.getVersion();
+        return version;
     }
 };
 __decorate([
@@ -147,6 +154,18 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], AppController.prototype, "complateAttendance", null);
+__decorate([
+    (0, common_1.Get)('/password'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], AppController.prototype, "sendPassword", null);
+__decorate([
+    (0, common_1.Get)('/version'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], AppController.prototype, "getVersion", null);
 AppController = __decorate([
     (0, common_1.Controller)(),
     __metadata("design:paramtypes", [app_service_1.AppService])

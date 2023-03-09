@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.setAttendType = exports.makeToUpdate = exports.getDate = exports.connectGoogleApi = exports.getReader = exports.getColumnNumberForEtc = exports.getColumnNumber = exports.getNowWeek = void 0;
+exports.setAttendType = exports.makeToUpdate = exports.getDate = exports.connectGoogleApi = exports.getReader = exports.getColumnNumberForEtc = exports.getColumnNumber = exports.getColumnNumberz = exports.getNowWeek = void 0;
 const googleapis_1 = require("googleapis");
 const attendance_377908_a5329d95e55f_json_1 = require("../../attendance-377908-a5329d95e55f.json");
-const onDays = [0, 1, 6];
+const onDays = [0, 1, 6, 5];
 const getNowWeek = () => {
     const nowDate = (0, exports.getDate)();
     const now = new Date().getDay();
@@ -31,7 +31,7 @@ const getNowWeek = () => {
     }
     console.log(zxczxc[0].includes(nowDate.date));
     for (let i = 0; i < zxczxc.length; i++) {
-        if (zxczxc[i].includes(nowDate.date)) {
+        if (zxczxc[i].includes(4)) {
             weeksCount = i + 1;
             break;
         }
@@ -40,7 +40,7 @@ const getNowWeek = () => {
     return weeksCount;
 };
 exports.getNowWeek = getNowWeek;
-const getColumnNumber = (nowWeek) => {
+const getColumnNumberz = (nowWeek) => {
     let column = '';
     switch (nowWeek) {
         case 1:
@@ -57,6 +57,36 @@ const getColumnNumber = (nowWeek) => {
             break;
         case 5:
             column = 'K';
+            break;
+    }
+    return column;
+};
+exports.getColumnNumberz = getColumnNumberz;
+const getColumnNumber = (nowWeek) => {
+    let column = {
+        attend: '',
+        pray: '',
+    };
+    switch (nowWeek) {
+        case 1:
+            column.attend = 'C';
+            column.pray = 'D';
+            break;
+        case 2:
+            column.attend = 'F';
+            column.pray = 'G';
+            break;
+        case 3:
+            column.attend = 'I';
+            column.pray = 'J';
+            break;
+        case 4:
+            column.attend = 'L';
+            column.pray = 'M';
+            break;
+        case 5:
+            column.attend = 'O';
+            column.pray = 'P';
             break;
     }
     return column;

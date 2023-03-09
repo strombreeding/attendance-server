@@ -1,5 +1,9 @@
 export declare const getNowWeek: () => number;
-export declare const getColumnNumber: (nowWeek: number) => string;
+export declare const getColumnNumberz: (nowWeek: number) => string;
+export declare const getColumnNumber: (nowWeek: number) => {
+    attend: string;
+    pray: string;
+};
 export declare const getColumnNumberForEtc: (nowWeek: number) => string;
 export declare const getReader: (name: string) => any;
 export declare const connectGoogleApi: () => import("googleapis").sheets_v4.Sheets;

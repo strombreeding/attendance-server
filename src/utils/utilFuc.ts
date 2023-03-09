@@ -3,7 +3,7 @@ import {
   client_email,
   private_key,
 } from '../../attendance-377908-a5329d95e55f.json';
-const onDays = [0, 1, 6];
+const onDays = [0, 1, 6, 5];
 
 export const getNowWeek = () => {
   // 아래는 월별 일요일 날짜와 개수 구하는 것
@@ -40,7 +40,8 @@ export const getNowWeek = () => {
   console.log(zxczxc[0].includes(nowDate.date));
   for (let i = 0; i < zxczxc.length; i++) {
     // 27 을 바꾸어야 함 nowDate.date 로
-    if (zxczxc[i].includes(nowDate.date)) {
+    if (zxczxc[i].includes(4)) {
+      // if (zxczxc[i].includes(nowDate.date)) {
       weeksCount = i + 1;
       break;
     }
@@ -54,7 +55,7 @@ export const getNowWeek = () => {
   return weeksCount;
 };
 
-export const getColumnNumber = (nowWeek: number) => {
+export const getColumnNumberz = (nowWeek: number) => {
   let column = '';
   switch (nowWeek) {
     case 1:
@@ -71,6 +72,36 @@ export const getColumnNumber = (nowWeek: number) => {
       break;
     case 5:
       column = 'K';
+      break;
+  }
+  return column;
+};
+
+export const getColumnNumber = (nowWeek: number) => {
+  let column = {
+    attend: '',
+    pray: '',
+  };
+  switch (nowWeek) {
+    case 1:
+      column.attend = 'C';
+      column.pray = 'D';
+      break;
+    case 2:
+      column.attend = 'F';
+      column.pray = 'G';
+      break;
+    case 3:
+      column.attend = 'I';
+      column.pray = 'J';
+      break;
+    case 4:
+      column.attend = 'L';
+      column.pray = 'M';
+      break;
+    case 5:
+      column.attend = 'O';
+      column.pray = 'P';
       break;
   }
   return column;

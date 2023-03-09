@@ -36,13 +36,12 @@ let AppService = class AppService {
         const column = utils.getColumnNumber(nowWeek);
         const attendFamily = await this.googleSheet.spreadsheets.values.get({
             spreadsheetId,
-            range: `${month}!${column}${family.startLength}:${column}${family.endLength}`,
+            range: `${month}!${column.attend}${family.startLength}:${column.pray}${family.endLength}`,
         });
         let resultNum = 0;
-        console.log(attendFamily.data.values);
         if (attendFamily.data.values) {
             for (let i = 0; i < attendFamily.data.values.length; i++) {
-                const checked = ['🟢', '🟡'];
+                const checked = ['TRUE', 'FALSE'];
                 if (checked.includes(attendFamily.data.values[i][0])) {
                     ++resultNum;
                 }
@@ -88,7 +87,6 @@ let AppService = class AppService {
                 },
             });
         }
-        console.log('ㅎㅇㅎㅇ');
     }
     async plusFamilyLength(code, newMember) {
         const date = utils.getDate().month;
@@ -153,23 +151,20 @@ let AppService = class AppService {
             if (dataList.length > 0) {
                 for (let a = 0; a < dataList.length; a++) {
                     if (data.list[a].index === i) {
-                        toUpdate.push([`${data.list[a].attend}`]);
+                        toUpdate.push([
+                            `${data.list[a].type.attend}`,
+                            `${data.list[a].type.pray}`,
+                        ]);
                         dataList.splice(a, 1);
                         break;
                     }
                 }
             }
-            if (toUpdate.length >
-                i) {
-            }
-            else {
-                toUpdate.push([` `]);
-            }
         }
-        console.log(toUpdate);
+        console.log(toUpdate, 'ㅇㅇ');
         const context = await this.googleSheet.spreadsheets.values.update({
             spreadsheetId,
-            range: `${date}!${column}${startIndex}`,
+            range: `${date}!${column.attend}${startIndex}`,
             valueInputOption: 'USER_ENTERED',
             requestBody: {
                 values: toUpdate,
@@ -242,30 +237,20 @@ let AppService = class AppService {
         const column = utils.getColumnNumber(nowWeek);
         const context = await this.googleSheet.spreadsheets.values.get({
             spreadsheetId,
-            range: `${month}!${column}3:${column}100`,
+            range: `${month}!${column.attend}3:${column.pray}120`,
         });
         console.log(context.data.values);
         const attendance = {
             halfAttend: 0,
             fullAttend: 0,
         };
-        for (let i = 0; i < context.data.values.length; i++) {
-            if (context.data.values[i][0] === '🟢') {
-                attendance.fullAttend = attendance.fullAttend + 1;
-            }
-            else if (context.data.values[i][0] === '🟡') {
-                attendance.halfAttend = attendance.halfAttend + 1;
-            }
-        }
-        const result = [`${attendance.fullAttend} / ${attendance.halfAttend}`];
-        await this.googleSheet.spreadsheets.values.update({
+    }
+    async getVersion() {
+        const context = await this.googleSheet.spreadsheets.values.get({
             spreadsheetId,
-            range: `${month}!${column}2`,
-            valueInputOption: 'USER_ENTERED',
-            requestBody: {
-                values: [result],
-            },
+            range: `월간 통계!$B1`,
         });
+        return context.data.values[0][0];
     }
 };
 AppService = __decorate([

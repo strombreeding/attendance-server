@@ -137,8 +137,10 @@ export class AppController {
     console.log(data);
     const date = utils.getDate().month;
     const familyCode = utils.getReader(data.name);
+
     const familyInfo = await this.appService.getFamilyInfo(familyCode, date);
     const nowWeek = utils.getNowWeek();
+    console.log('gdwegegwegwgewgegewweg');
     const result = await this.appService.postAttendance(
       data,
       nowWeek,
@@ -149,6 +151,17 @@ export class AppController {
 
   @Patch('/attendance')
   async complateAttendance() {
-    await this.appService.complateAttendance();
+    // await this.appService.complateAttendance();
+    // return true;
+  }
+
+  @Get('/password')
+  sendPassword() {
+    return '2580#';
+  }
+  @Get('/version')
+  async getVersion() {
+    const version = await this.appService.getVersion();
+    return version;
   }
 }

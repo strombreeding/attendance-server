@@ -45,4 +45,5 @@ export declare class AppService {
     append(range: any, insertDataOption: any, values: any): Promise<void>;
     appendNewFace(newFaceName: string, arr: Array<string>, i: number): Promise<boolean>;
     complateAttendance(): Promise<void>;
+    getVersion(): Promise<any>;
 }
