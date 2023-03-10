@@ -222,10 +222,10 @@ let AppService = class AppService {
         };
         await Promise.all([
             mergeCells(sheetIds[i - 1], Number(arr[0]) - 1, Number(arr[1]) + 1, 4, 5),
-            mergeCells(sheetIds[i - 1], Number(arr[0]) - 1, Number(arr[1]) + 1, 6, 7),
-            mergeCells(sheetIds[i - 1], Number(arr[0]) - 1, Number(arr[1]) + 1, 8, 9),
+            mergeCells(sheetIds[i - 1], Number(arr[0]) - 1, Number(arr[1]) + 1, 7, 8),
             mergeCells(sheetIds[i - 1], Number(arr[0]) - 1, Number(arr[1]) + 1, 10, 11),
-            mergeCells(sheetIds[i - 1], Number(arr[0]) - 1, Number(arr[1]) + 1, 12, 13),
+            mergeCells(sheetIds[i - 1], Number(arr[0]) - 1, Number(arr[1]) + 1, 13, 14),
+            mergeCells(sheetIds[i - 1], Number(arr[0]) - 1, Number(arr[1]) + 1, 16, 17),
         ]);
         const addEmptyRows = await this.append(`${i}!A${Number(arr[1]) + 2}`, 'OVERWRITE', [['']]);
         console.log('스프레드 시트', i, '에 행 추가 완료!!');
