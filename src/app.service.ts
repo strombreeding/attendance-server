@@ -304,22 +304,22 @@ export class AppService {
       });
     };
     await Promise.all([
-      mergeCells(sheetIds[i - 1], Number(arr[0]) - 1, Number(arr[1]) + 1, 3, 4),
-      mergeCells(sheetIds[i - 1], Number(arr[0]) - 1, Number(arr[1]) + 1, 5, 6),
-      mergeCells(sheetIds[i - 1], Number(arr[0]) - 1, Number(arr[1]) + 1, 7, 8),
+      mergeCells(sheetIds[i - 1], Number(arr[0]) - 1, Number(arr[1]) + 1, 4, 5),
+      mergeCells(sheetIds[i - 1], Number(arr[0]) - 1, Number(arr[1]) + 1, 6, 7),
+      mergeCells(sheetIds[i - 1], Number(arr[0]) - 1, Number(arr[1]) + 1, 8, 9),
       mergeCells(
         sheetIds[i - 1],
         Number(arr[0]) - 1,
         Number(arr[1]) + 1,
-        9,
         10,
+        11,
       ),
       mergeCells(
         sheetIds[i - 1],
         Number(arr[0]) - 1,
         Number(arr[1]) + 1,
-        11,
         12,
+        13,
       ),
     ]);
     // const mergeCellFirstWeek = await this.googleSheet.spreadsheets.batchUpdate({
