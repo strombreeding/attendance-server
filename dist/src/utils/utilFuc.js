@@ -3,12 +3,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.setAttendType = exports.makeToUpdate = exports.getDate = exports.connectGoogleApi = exports.getReader = exports.getColumnNumberForEtc = exports.getColumnNumber = exports.getColumnNumberz = exports.getNowWeek = void 0;
 const googleapis_1 = require("googleapis");
 const attendance_377908_a5329d95e55f_json_1 = require("../../attendance-377908-a5329d95e55f.json");
-const onDays = [0, 1, 2];
+const onDays = [0, 1];
 const getNowWeek = () => {
     const nowDate = (0, exports.getDate)();
     const now = new Date().getDay();
     if (onDays.includes(now) === false)
-        throw new Error('토,일,월요일 에만 출석부 사용이 가능합니다.');
+        throw new Error('일,월요일 에만 출석부 사용이 가능합니다.');
     const lastDate = new Date(nowDate.year, nowDate.month, 0).getDate();
     console.log(lastDate);
     let weeksCount = 0;
@@ -18,7 +18,6 @@ const getNowWeek = () => {
         const date = new Date(nowDate.year, nowDate.month - 1, i).getDate();
         const arr = [];
         if (day === 0) {
-            arr.push(date - 1);
             arr.push(date);
             if (date + 1 <= lastDate) {
                 arr.push(date + 1);
@@ -96,19 +95,19 @@ const getColumnNumberForEtc = (nowWeek) => {
     let column = '';
     switch (nowWeek) {
         case 1:
-            column = 'D';
+            column = 'E';
             break;
         case 2:
-            column = 'F';
-            break;
-        case 3:
             column = 'H';
             break;
+        case 3:
+            column = 'K';
+            break;
         case 4:
-            column = 'J';
+            column = 'N';
             break;
         case 5:
-            column = 'L';
+            column = 'Q';
             break;
     }
     return column;
