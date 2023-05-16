@@ -32,6 +32,20 @@ export class AppController {
   //   // await this.appService.zz();
   //   return 'clear';
   // }
+  @Get()
+  test() {
+    const qs = require('qs');
+    const query = qs.stringify(
+      {
+        populate: ['categories', 'kimozzi'],
+      },
+      {
+        encodeValuesOnly: true, // prettify URL
+      },
+    );
+    console.log(query);
+    return query;
+  }
 
   @Get('/members')
   async getFamily(@Query('name') name: string) {

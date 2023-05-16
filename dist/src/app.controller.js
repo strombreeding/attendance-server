@@ -21,6 +21,16 @@ let AppController = class AppController {
     constructor(appService) {
         this.appService = appService;
     }
+    test() {
+        const qs = require('qs');
+        const query = qs.stringify({
+            populate: ['categories', 'kimozzi'],
+        }, {
+            encodeValuesOnly: true,
+        });
+        console.log(query);
+        return query;
+    }
     async getFamily(name) {
         console.log('들어옴?');
         try {
@@ -112,6 +122,12 @@ let AppController = class AppController {
         return version;
     }
 };
+__decorate([
+    (0, common_1.Get)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], AppController.prototype, "test", null);
 __decorate([
     (0, common_1.Get)('/members'),
     __param(0, (0, common_1.Query)('name')),
