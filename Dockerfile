@@ -8,4 +8,4 @@ COPY . .
 RUN npm ci
 RUN npm run build
 
-ENTRYPOINT ["node","dist/main.js"]
+ENTRYPOINT ["node","dist/src/main.js"]
