@@ -3,14 +3,14 @@ import {
   client_email,
   private_key,
 } from '../../attendance-377908-a5329d95e55f.json';
-const onDays = [0, 1, 2, 3, 4];
+const onDays = [0, 1, 2, 3, 4, 5];
 
 export const getNowWeek = () => {
   // 아래는 월별 일요일 날짜와 개수 구하는 것
   const nowDate = getDate();
   const now = new Date().getDay();
   if (onDays.includes(now) === false)
-    throw new Error('일~목요일 에만 출석부 사용이 가능합니다.');
+    throw new Error('일~금요일 에만 출석부 사용이 가능합니다.');
 
   const lastDate = new Date(nowDate.year, nowDate.month, 0).getDate();
   console.log(lastDate);
@@ -27,7 +27,7 @@ export const getNowWeek = () => {
       arr.push(date);
       let count = 1;
       let surveCount = 1;
-      while (count < 5) {
+      while (count < 6) {
         console.log('현재 카운트 = ', count);
         if (date + count <= lastDate) {
           arr.push(date + count);

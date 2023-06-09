@@ -4,6 +4,7 @@ const core_1 = require("@nestjs/core");
 const app_module_1 = require("./app.module");
 const utilFuc_1 = require("./utils/utilFuc");
 async function bootstrap() {
+    console.log(process.env.MONGODB_URL);
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     app.enableCors();
     await app.listen(3001);
